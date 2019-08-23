@@ -11,18 +11,23 @@ const initialMovieInfo = {
 const UpdateMovieForm = props => {
   console.log(props)
   const [movie, setMovie] = useState(initialMovieInfo)
+  
   useEffect(() => {
     const id = props.match.params.id
-    console.log('props.movies', props.movies)
-    const movieInArr = props.movies.find(movie => `${movie.id}` === id)
-    if (movieInArr) setMovie(movieInArr)
-  }, [props.movies, props.match.params.id])
+    axios
+      .get(`http://localhost:5000/api/movies/${id}`)
+      .then(res => {
+        console.log(res.data)
+        setMovie(res.data)
+      })
+      .catch(err => console.log(err.response))
+  }, [])
 
   const changeHandler = ev => {
-    ev.persist() //not sure what this does, but putting it here
+    ev.persist()
     let value = ev.target.value
     if (ev.target.name === 'metascore') {
-      value = parseInt(value, 10) // I'd like to understand this, but for now I don't
+      value = parseInt(value, 10)
     }
 
     setMovie({
@@ -38,8 +43,8 @@ const UpdateMovieForm = props => {
       .then(res => {
         console.log('server PUT response', res)
         setMovie(initialMovieInfo)
-        props.updateMovies(res.data) // need to pass updateMovies through
-        props.history.push('/movies') // don't know what this does
+        props.updateMovies(res.data)
+        props.history.push(`/movies/${movie.id}`)
       })
       .catch(err => console.log(err.response))
   }
@@ -47,7 +52,7 @@ const UpdateMovieForm = props => {
   return (
     <div>
       <h4>Update Movie Here</h4>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} action="/">
         <input
           type="text"
           name="title"

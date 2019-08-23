@@ -14,12 +14,17 @@ const App = () => {
   };
 
   const [movies, setMovies] = useState([])
-  useEffect(() => {
-    axios
-      .get('http://localhost:5000/api/movies')
-      .then(res => setMovies(res.data))
-      .catch(err => console.log(err.response))
-  }, [])
+  // useEffect(() => {
+  //   axios
+  //     .get('http://localhost:5000/api/movies')
+  //     .then(res => setMovies(res.data))
+  //     .catch(err => console.log(err.response))
+  // }, [])
+
+  // const updateMovies = movie => {
+  //   setMovies([...movies, movie])
+  // }
+
   return (
     <>
       <SavedList list={savedList} />
