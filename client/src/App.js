@@ -14,12 +14,12 @@ const App = () => {
   };
 
   const [movies, setMovies] = useState([])
-  // useEffect(() => {
-  //   axios
-  //     .get('http://localhost:5000/api/movies')
-  //     .then(res => setMovies(res.data))
-  //     .catch(err => console.log(err.response))
-  // }, [])
+  useEffect(() => {
+    axios
+      .get('http://localhost:5000/api/movies')
+      .then(res => setMovies(res.data))
+      .catch(err => console.log(err.response))
+  }, [])
 
   // const updateMovies = movie => {
   //   setMovies([...movies, movie])
@@ -32,7 +32,7 @@ const App = () => {
       <Route
         path="/movies/:id"
         render={props => {
-          return <Movie {...props} addToSavedList={addToSavedList} />;
+          return <Movie {...props} addToSavedList={addToSavedList} movies={movies} setMovies={setMovies} />;
         }}
       />
       <Route
